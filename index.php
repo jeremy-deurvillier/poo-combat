@@ -46,7 +46,6 @@ function createHero() {
 
 function showHeroesAlive() {
     $manager = new HeroesManager(dbConnect());
-
     $heroes = $manager->findAllAlive();
 
     foreach ($heroes as $hero) {

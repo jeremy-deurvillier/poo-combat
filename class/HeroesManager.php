@@ -29,28 +29,6 @@ class HeroesManager {
         $this->db = $db;
     }
 
-    public function findAllAlive():array
-    {
-        try {
-            $heroesList = [];
-            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE hp > 0;';
-
-            $request = $this->getDb()->query($sql);
-            $heroesAlive = $request->fetchAll(PDO::FETCH_ASSOC);
-
-            foreach ($heroesAlive as $data) {
-                $heroesList[] = new Hero($data);
-            }
-
-            return $heroesList;
-
-        } catch (PDOException $error) {
-            print_r($error);
-
-            return false;
-        }
-    }
-
     public function add(Hero $hero):bool
     {
         try {
@@ -75,6 +53,53 @@ class HeroesManager {
             return false;
         }
     }
+
+    public function findAllAlive():array
+    {
+        try {
+            $heroesList = [];
+            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE hp > 0;';
+
+            $request = $this->getDb()->query($sql);
+            $heroesAlive = $request->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($heroesAlive as $data) {
+                $heroesList[] = new Hero($data);
+            }
+
+            return $heroesList;
+
+        } catch (PDOException $error) {
+            print_r($error);
+
+            return [];
+        }
+    }
+
+    public function find(int $id):Hero
+    {
+        try {
+            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE id_hero = :id;';
+
+            $request = $this->getDb()->prepare($sql);
+
+            $request->execute([':id' => $id]);
+
+            $hero = $request->fetch(PDO::FETCH_ASSOC);
+
+            if ($hero) {
+                return new Hero($hero);
+            }
+
+            return false;
+
+        } catch (PDOException $error) {
+            print_r($error);
+
+            return false;
+        }
+    }
+
 }
 
 ?>
