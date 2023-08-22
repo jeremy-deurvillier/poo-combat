@@ -1,0 +1,9 @@
+CREATE DATABASE poocombat;
+
+USE poocombat;
+
+CREATE TABLE heroes (
+    id_hero INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(40) NOT NULL,
+    hp INT NOT NULL DEFAULT 100
+);
