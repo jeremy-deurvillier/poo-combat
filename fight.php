@@ -1,5 +1,7 @@
 <?php
 
+require_once('config/autoload.php');
+
 $title = 'Fight !';
 
 include('includes/header.php');

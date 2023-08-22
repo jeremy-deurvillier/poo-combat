@@ -1,5 +1,7 @@
 <?php
 
+require_once('config/autoload.php');
+
 $title = 'Accueil';
 
 include('includes/header.php');
