@@ -20,7 +20,7 @@ function fighting() {
             $hero = $heroManager->find(htmlspecialchars($_GET['hero']));
             $monster = $fightManager->createMonster();
 
-            if ($hero) {
+            if ($hero && $hero->getHp() > 0) {
                 $resultFight = $fightManager->fight($hero, $monster);
 
                 foreach ($resultFight as $infos) {
@@ -30,6 +30,10 @@ function fighting() {
                         include('includes/result-fight.php');
                     }
                 }
+
+                $heroManager->update($hero);
+            } else {
+                include('includes/hero-no-hp.php');
             }
 
         } else {
@@ -48,7 +52,9 @@ function fighting() {
 
 ?>
 
-<div class="mb-5 px-3">
+<h2 class="text-center my-5">Fighting !</h2>
+
+<div class="position-fixed mb-5 px-3">
     <a href="/" class="btn btn-primary mb-3">Retour</a>
 </div>
 

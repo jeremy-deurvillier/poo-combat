@@ -76,7 +76,7 @@ class HeroesManager {
         }
     }
 
-    public function find(int $id):Hero
+    public function find(int $id):Hero|bool
     {
         try {
             $sql = 'SELECT id_hero, name, hp FROM heroes WHERE id_hero = :id;';
@@ -100,29 +100,24 @@ class HeroesManager {
         }
     }
 
-    public function update(int $id):bool
-    {/*
+    public function update(Hero $hero):bool
+    {
         try {
-            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE id_hero = :id;';
+            $sql = 'UPDATE heroes SET hp = :hp WHERE id_hero = :id;';
 
             $request = $this->getDb()->prepare($sql);
 
-            $request->execute([':id' => $id]);
-
-            $hero = $request->fetch(PDO::FETCH_ASSOC);
-
-            if ($hero) {
-                return new Hero($hero);
-            }
-
-            return false;
+            return $request->execute([
+                ':hp' => $hero->getHp(),
+                ':id' => $hero->getId()
+            ]);
 
         } catch (PDOException $error) {
             print_r($error);
 
             return false;
         }
-     */}
+     }
 
 }
 
