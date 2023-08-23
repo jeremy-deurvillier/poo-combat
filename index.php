@@ -2,60 +2,11 @@
 
 require_once('config/autoload.php');
 require_once('config/db-connect.php');
+require_once('utils/functions.php');
 
 $title = 'Accueil';
 
 include('includes/header.php');
-
-function alert(array $alert) {
-    include('includes/alert.php');
-}
-
-function createHero() {
-    if (isset($_POST['name'])) {
-        if (!empty($_POST['name'])) {
-            $manager = new HeroesManager(dbConnect());
-
-            $heroProps = [
-                'name' => htmlspecialchars($_POST['name'])
-            ];
-
-            $hero = new Hero($heroProps);
-
-            $heroIsCreated = $manager->add($hero);
-
-            if ($heroIsCreated) {
-                alert([
-                    'classname' => 'success',
-                    'text' => 'Héro créé avec succès !'
-                ]);
-            } else {
-                alert([
-                    'classname' => 'warning',
-                    'text' => 'Une erreur est survenue.'
-                ]);
-            }
-        } else {
-                alert([
-                    'classname' => 'info',
-                    'text' => 'Votre héro doit avoir un nom.'
-                ]);
-        }
-    }
-}
-
-function showHeroesAlive() {
-    $manager = new HeroesManager(dbConnect());
-    $heroes = $manager->findAllAlive();
-
-    if (count($heroes) > 0) {
-        foreach ($heroes as $hero) {
-            include('includes/card.php');
-        }
-    } else {
-        include('includes/no-hero.php');
-    }
-}
 
 ?>
 
