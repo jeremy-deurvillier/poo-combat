@@ -48,8 +48,13 @@ class FightManager {
 
         $winner = $this->defineWinner($hero, $monster);
 
-        $status = 'Combat terminé !';
-        $state = 'Victoire de ' . $winner->getName() . ' !';
+        if (get_class($winner) == 'Hero') {
+            $status = 'Avec courage, vous avez terrasser l\'ennemi.';
+            $state = 'Victoire';
+        } else {
+            $status = 'Votre héro n\'a pas été à la hauteur.';
+            $state = 'Défaite';
+        }
 
         $fightHistory[] = [
             'result' => [

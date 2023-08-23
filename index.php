@@ -48,8 +48,12 @@ function showHeroesAlive() {
     $manager = new HeroesManager(dbConnect());
     $heroes = $manager->findAllAlive();
 
-    foreach ($heroes as $hero) {
-        include('includes/card.php');
+    if (count($heroes) > 0) {
+        foreach ($heroes as $hero) {
+            include('includes/card.php');
+        }
+    } else {
+        include('includes/no-hero.php');
     }
 }
 
