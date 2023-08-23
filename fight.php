@@ -54,12 +54,15 @@ function fighting() {
 
 <h2 class="text-center my-5">Fighting !</h2>
 
-<div class="position-fixed mb-5 px-3">
-    <a href="/" class="btn btn-primary mb-3">Retour</a>
-</div>
+<?php include('includes/home-btn.php'); ?>
 
-<section class="container">
+<section class="container-sm container-md">
     <?php fighting(); ?>
 </section>
 
-<?php include('includes/footer.php'); ?>
+<?php
+
+include('includes/home-btn.php');
+include('includes/footer.php');
+
+?>

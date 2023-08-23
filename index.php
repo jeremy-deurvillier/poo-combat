@@ -74,7 +74,7 @@ function showHeroesAlive() {
 </form>
 
 <h2 class="text-center my-5">Liste des héros</h2>
-<section class="row justify-content-center g-3 vw-100 mb-4">
+<section class="row flex-column flex-sm-row justify-content-center g-3 vw-100 mb-4">
     <?php showHeroesAlive(); ?> 
 </section>
 
