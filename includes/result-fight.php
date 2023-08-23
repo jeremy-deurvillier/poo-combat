@@ -1,6 +1,6 @@
 <?php
 
-$classname = ($infos['result']['heroHit'])?'body-tertiary':'success';
+$classname = ($infos['result']['victory'])?'success':'body-tertiary';
 
 ?>
 

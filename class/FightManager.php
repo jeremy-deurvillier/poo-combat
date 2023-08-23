@@ -12,57 +12,72 @@ class FightManager {
         ]);
     }
 
-    function defineWinner(Hero $hero, Monster $monster) {
-        if ($hero->getHp() > 0) return $hero;
-
-        return $monster;
-    }
-
-    public function fight(Hero $hero, Monster $monster):array
+    function createHistory(Hero $hero, Monster $monster, array &$history, bool $heroHit = false):array
     {
-        $fightHistory = [];
-        $heroHit = false;
-        $status = '';
-        $state = '';
-        
-        while ($hero->getHp() > 0 && $monster->getHp() > 0) {
+        if ($hero->getHp() > 0 && $monster->getHp() > 0) {
 
             if ($heroHit) {
                 $damage = $hero->hit($monster);
                 $status = $hero->getName() . ' inflige ' . $damage . ' dégats à ' . $monster->getName() . '.';
-                $state = $monster->getName() . ' a maintenant ' . $monster->getHp() . 'PV.';
+                $state = $monster->getName() . ' a maintenant ' . $monster->getHp() . ' PV.';
             } else {
                 $damage = $monster->hit($hero);
                 $status = $monster->getName() . ' inflige ' . $damage . ' dégats à ' . $hero->getName() . '.';
-                $state = $hero->getName() . ' a maintenant ' . $hero->getHp() . 'PV.';
+                $state = $hero->getName() . ' a maintenant ' . $hero->getHp() . ' PV.';
             }
 
-            $fightHistory[] = [
+            $history[] = [
                 'heroHit' => $heroHit,
                 'status' => $status,
                 'state' => $state
             ];
 
             $heroHit = !$heroHit;
+
+            $this->createHistory($hero, $monster, $history, $heroHit);
         }
 
-        $winner = $this->defineWinner($hero, $monster);
+        return $history;
+    }
 
+    function getWinner(Hero $hero, Monster $monster) {
+        if ($hero->getHp() > 0) return $hero;
+
+        return $monster;
+    }
+
+    function getResult($winner):array
+    {
         if (get_class($winner) == 'Hero') {
             $status = 'Avec courage, vous avez terrasser l\'ennemi.';
             $state = 'Victoire';
+            $isVictory = true;
         } else {
             $status = 'Votre héro n\'a pas été à la hauteur.';
             $state = 'Défaite';
+            $isVictory = false;
         }
 
-        $fightHistory[] = [
+        return [
             'result' => [
-                'heroHit' => $heroHit,
+                'victory' => $isVictory,
                 'status' => $status,
                 'state' => $state
             ]
         ];
+    }
+
+    public function fight(Hero $hero, Monster $monster):array
+    {
+        $fightHistory = [];
+
+        $fightHistory = $this->createHistory($hero, $monster, $fightHistory);
+
+        $winner = $this->getWinner($hero, $monster);
+        
+        $result = $this->getResult($winner);
+
+        $fightHistory[] = $result;
 
         return $fightHistory;
     }

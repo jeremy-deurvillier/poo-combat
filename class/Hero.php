@@ -68,7 +68,7 @@ class Hero {
      */
     public function setHp($hp)
     {
-        $this->hp = $hp;
+        $this->hp = ($hp >= 0)?$hp:0;
     }
 
     private function hydrate(array $datas)
