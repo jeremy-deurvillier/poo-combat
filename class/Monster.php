@@ -1,34 +1,13 @@
 <?php
 
-class Hero {
+class Monster {
 
-    private int $id;
     private string $name;
     private int $hp;
 
-    public function __construct(array $datas)
+    function __construct(array $datas)
     {
         $this->hydrate($datas);
-    }
-    
-    /**
-     * Get id.
-     *
-     * @return id.
-     */
-    public function getId():int
-    {
-        return $this->id;
-    }
-    
-    /**
-     * Set id.
-     *
-     * @param id the value to set.
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
      
      /**
@@ -71,18 +50,17 @@ class Hero {
         $this->hp = $hp;
     }
 
-    private function hydrate(array $datas)
+    public function hydrate(array $datas)
     {
-        if (isset($datas['id_hero'])) $this->setId($datas['id_hero']);
         if (isset($datas['name'])) $this->setName($datas['name']);
         if (isset($datas['hp'])) $this->setHp($datas['hp']);
     }
 
-    public function hit(Monster $monster):int
+    public function hit(Hero $hero):int
     {
         $damage = rand(0, 20);
 
-        $monster->setHp($monster->getHp() - $damage);
+        $hero->setHp($hero->getHp() - $damage);
 
         return $damage;
     }

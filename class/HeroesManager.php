@@ -100,6 +100,30 @@ class HeroesManager {
         }
     }
 
+    public function update(int $id):bool
+    {/*
+        try {
+            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE id_hero = :id;';
+
+            $request = $this->getDb()->prepare($sql);
+
+            $request->execute([':id' => $id]);
+
+            $hero = $request->fetch(PDO::FETCH_ASSOC);
+
+            if ($hero) {
+                return new Hero($hero);
+            }
+
+            return false;
+
+        } catch (PDOException $error) {
+            print_r($error);
+
+            return false;
+        }
+     */}
+
 }
 
 ?>

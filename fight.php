@@ -11,16 +11,27 @@ function alert(array $alert) {
     include('includes/alert.php');
 }
 
-function findHero() {
+function fighting() {
     if (isset($_GET['hero'])) {
         if (!empty($_GET['hero'])) {
-            $manager = new HeroesManager(dbConnect());
+            $heroManager = new HeroesManager(dbConnect());
+            $fightManager = new FightManager();
 
-            $hero = $manager->find(htmlspecialchars($_GET['hero']));
+            $hero = $heroManager->find(htmlspecialchars($_GET['hero']));
+            $monster = $fightManager->createMonster();
 
             if ($hero) {
-                include('includes/card.php');
+                $resultFight = $fightManager->fight($hero, $monster);
+
+                foreach ($resultFight as $infos) {
+                    if (!isset($infos['result'])) {
+                        include('includes/step-fight.php');
+                    } else {
+                        include('includes/result-fight.php');
+                    }
+                }
             }
+
         } else {
             alert([
                 'classname' => 'warning',
@@ -42,6 +53,6 @@ function findHero() {
 </div>
 FIGHT !
 
-<?php findHero(); ?>
+<?php fighting(); ?>
 
 <?php include('includes/footer.php'); ?>
