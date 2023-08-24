@@ -2,6 +2,7 @@
     <div class="bg-dark rounded-circle mx-auto mb-1" style="width:64px;height:64px;"></div>
     <div class="text-center py-5">
     <p><?= $hero->getName() ?></p>
+    <p><?= $hero->getClass() ?></p>
     <p>HP : <?= $hero->getHp() ?></p>
     </div>
     <form action="fight.php" method="get" class="text-center">

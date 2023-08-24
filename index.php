@@ -20,6 +20,13 @@ include('includes/header.php');
         <input type="text" class="form-control" id="name" name="name" placeholder="Nom du héro">
     </div>
     <div class="col-auto">
+        <select class="form-select" name="class" aria-label="Classe du Héro">
+            <option value="guerrier" selected>Guerrier</option>
+            <option value="mage">Mage</option>
+            <option value="archer">Archer</option>
+        </select>
+    </div>
+    <div class="col-auto">
         <button type="submit" class="btn btn-primary mb-3">Créer</button>
     </div>
 </form>

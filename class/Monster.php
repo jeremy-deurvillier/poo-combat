@@ -4,6 +4,7 @@ class Monster {
 
     private string $name;
     private int $hp;
+    private string $class;
 
     function __construct(array $datas)
     {
@@ -50,10 +51,31 @@ class Monster {
         $this->hp = ($hp >= 0)?$hp:0;
     }
 
+     /**
+      * Get class.
+      *
+      * @return class.
+      */
+     public function getClass()
+     {
+         return $this->class;
+     }
+     
+     /**
+      * Set class.
+      *
+      * @param class the value to set.
+      */
+     public function setClass($class)
+     {
+         $this->class = $class;
+     }
+
     public function hydrate(array $datas)
     {
         if (isset($datas['name'])) $this->setName($datas['name']);
         if (isset($datas['hp'])) $this->setHp($datas['hp']);
+        if (isset($datas['class'])) $this->setClass($datas['class']);
     }
 
     public function hit(Hero $hero):int

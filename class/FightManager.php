@@ -6,9 +6,13 @@ class FightManager {
 
     public function createMonster():Monster
     {
+        $names = ['Sala Mee', 'Belordur', 'Cass Coui'];
+        $class = ['ogre', 'sorcier', 'fantassin'];
+
         return new Monster([
-            'name' => 'Freezer',
-            'hp' => 100
+            'name' => $names[rand(0, count($names) - 1)],
+            'hp' => 100,
+            'class' => $class[rand(0, count($class) - 1)]
         ]);
     }
 

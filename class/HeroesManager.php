@@ -32,11 +32,14 @@ class HeroesManager {
     public function add(Hero $hero):bool
     {
         try {
-            $sql = 'INSERT INTO heroes(name) VALUES (:name);';
+            $sql = 'INSERT INTO heroes(name, class) VALUES (:name, :class);';
 
             $request = $this->getDb()->prepare($sql);
 
-            $isCreated = $request->execute([':name' => $hero->getName()]);
+            $isCreated = $request->execute([
+                ':name' => $hero->getName(),
+                ':class' => $hero->getClass()
+            ]);
 
             if ($isCreated) {
                 $id = $this->getDb()->lastInsertId();
@@ -58,7 +61,7 @@ class HeroesManager {
     {
         try {
             $heroesList = [];
-            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE hp > 0;';
+            $sql = 'SELECT * FROM heroes WHERE hp > 0;';
 
             $request = $this->getDb()->query($sql);
             $heroesAlive = $request->fetchAll(PDO::FETCH_ASSOC);
@@ -79,7 +82,7 @@ class HeroesManager {
     public function find(int $id):Hero|bool
     {
         try {
-            $sql = 'SELECT id_hero, name, hp FROM heroes WHERE id_hero = :id;';
+            $sql = 'SELECT * FROM heroes WHERE id_hero = :id;';
 
             $request = $this->getDb()->prepare($sql);
 

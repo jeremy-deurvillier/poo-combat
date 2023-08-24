@@ -5,34 +5,42 @@ function alert(array $alert) {
 }
 
 function createHero() {
-    if (isset($_POST['name'])) {
+    if (isset($_POST['name']) && isset($_POST['class'])) {
         if (!empty($_POST['name'])) {
-            $manager = new HeroesManager(dbConnect());
+            if (!empty($_POST['class'])) {
+                $manager = new HeroesManager(dbConnect());
 
-            $heroProps = [
-                'name' => htmlspecialchars($_POST['name'])
-            ];
+                $heroProps = [
+                    'name' => htmlspecialchars($_POST['name']),
+                    'class' => htmlspecialchars($_POST['class'])
+                ];
 
-            $hero = new Hero($heroProps);
+                $hero = new Hero($heroProps);
 
-            $heroIsCreated = $manager->add($hero);
+                $heroIsCreated = $manager->add($hero);
 
-            if ($heroIsCreated) {
-                alert([
-                    'classname' => 'success',
-                    'text' => 'Héro créé avec succès !'
-                ]);
+                if ($heroIsCreated) {
+                    alert([
+                        'classname' => 'success',
+                        'text' => 'Héro créé avec succès !'
+                    ]);
+                } else {
+                    alert([
+                        'classname' => 'warning',
+                        'text' => 'Une erreur est survenue.'
+                    ]);
+                }
             } else {
                 alert([
-                    'classname' => 'warning',
-                    'text' => 'Une erreur est survenue.'
+                    'classname' => 'info',
+                    'text' => 'Votre héro doit avoir une classe valide.'
                 ]);
             }
         } else {
-                alert([
-                    'classname' => 'info',
-                    'text' => 'Votre héro doit avoir un nom.'
-                ]);
+            alert([
+                'classname' => 'info',
+                'text' => 'Votre héro doit avoir un nom.'
+            ]);
         }
     }
 }
