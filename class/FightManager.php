@@ -18,8 +18,13 @@ class FightManager {
 
     function getStep($atk, int $damage, $def):array
     {
+      if ($damage > 0) {
         $status = $atk->getName() . ' inflige ' . $damage . ' dégats à ' . $def->getName() . '.';
         $state = $def->getName() . ' a maintenant ' . $def->getHp() . ' PV.';
+      } else {
+        $status = $atk->getName() . ' a raté son coup.';
+        $state = $def->getName() . ' a ' . $def->getHp() . ' PV.';
+      }
 
         return [
             'status' => $status,
