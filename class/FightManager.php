@@ -12,24 +12,33 @@ class FightManager {
         ]);
     }
 
+    function getStep($atk, int $damage, $def):array
+    {
+        $status = $atk->getName() . ' inflige ' . $damage . ' dégats à ' . $def->getName() . '.';
+        $state = $def->getName() . ' a maintenant ' . $def->getHp() . ' PV.';
+
+        return [
+            'status' => $status,
+            'state' => $state
+        ];
+    }
+
     function createHistory(Hero $hero, Monster $monster, array &$history, bool $heroHit = false):array
     {
         if ($hero->getHp() > 0 && $monster->getHp() > 0) {
 
             if ($heroHit) {
                 $damage = $hero->hit($monster);
-                $status = $hero->getName() . ' inflige ' . $damage . ' dégats à ' . $monster->getName() . '.';
-                $state = $monster->getName() . ' a maintenant ' . $monster->getHp() . ' PV.';
+                $step = $this->getStep($hero, $damage, $monster);
             } else {
                 $damage = $monster->hit($hero);
-                $status = $monster->getName() . ' inflige ' . $damage . ' dégats à ' . $hero->getName() . '.';
-                $state = $hero->getName() . ' a maintenant ' . $hero->getHp() . ' PV.';
+                $step = $this->getStep($monster, $damage, $hero);
             }
 
             $history[] = [
                 'heroHit' => $heroHit,
-                'status' => $status,
-                'state' => $state
+                'status' => $step['status'],
+                'state' => $step['state']
             ];
 
             $heroHit = !$heroHit;
@@ -40,7 +49,8 @@ class FightManager {
         return $history;
     }
 
-    function getWinner(Hero $hero, Monster $monster) {
+    function getWinner(Hero $hero, Monster $monster)
+    {
         if ($hero->getHp() > 0) return $hero;
 
         return $monster;
