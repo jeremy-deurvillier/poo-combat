@@ -7,6 +7,7 @@ class Hero {
     private int $hp;
     private int $energy;
     private string $class;
+    private $invoked;
 
     const COST_HIT = 15;
 
@@ -119,6 +120,27 @@ class Hero {
          $this->class = $class;
      }
 
+    /**
+     * Get invoked.
+     *
+     * @return invoked.
+     */
+    public function getInvoked()
+    {
+        return $this->invoked;
+    }
+    
+    /**
+     * Set invoked.
+     *
+     * @param invoked the value to set.
+     */
+    public function setInvoked($invoked)
+    {
+        $this->invoked = $invoked;
+    }
+ 
+
     private function hydrate(array $datas)
     {
         if (isset($datas['id_hero'])) $this->setId($datas['id_hero']);
@@ -126,6 +148,7 @@ class Hero {
         if (isset($datas['hp'])) $this->setHp($datas['hp']);
         if (isset($datas['energy'])) $this->setEnergy($datas['energy']);
         if (isset($datas['class'])) $this->setClass($datas['class']);
+        if (isset($datas['last_summon'])) $this->setInvoked($datas['last_summon']);
     }
 
     public function hit(Monster $monster):int

@@ -57,6 +57,28 @@ class HeroesManager {
         }
     }
 
+    public function findAll():array
+    {
+        try {
+            $heroesList = [];
+            $sql = 'SELECT * FROM heroes LIMIT 12 OFFSET 0;';
+
+            $request = $this->getDb()->query($sql);
+            $heroes = $request->fetchAll(PDO::FETCH_ASSOC);
+
+            foreach ($heroes as $data) {
+                $heroesList[] = new Hero($data);
+            }
+
+            return $heroesList;
+
+        } catch (PDOException $error) {
+            print_r($error);
+
+            return [];
+        }
+    }
+
     public function findAllAlive():array
     {
         try {
@@ -123,7 +145,26 @@ class HeroesManager {
 
             return false;
         }
-     }
+    }
+
+    public function invoke(int $hero):bool
+    {
+        try {
+            $sql = 'UPDATE heroes SET last_summon = DATE_ADD(NOW(), INTERVAL 3 MINUTE) WHERE id_hero = :id;';
+
+            $request = $this->getDb()->prepare($sql);
+
+            return $request->execute([
+                ':id' => $hero,
+            ]);
+
+        } catch (PDOException $error) {
+            print_r($error);
+
+            return false;
+        }
+ 
+    }
 
 }
 
