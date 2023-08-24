@@ -91,7 +91,9 @@ class HeroesManager {
             $hero = $request->fetch(PDO::FETCH_ASSOC);
 
             if ($hero) {
-                return new Hero($hero);
+                $class = ucfirst($hero['class']);
+
+                return new $class($hero);
             }
 
             return false;
@@ -106,12 +108,13 @@ class HeroesManager {
     public function update(Hero $hero):bool
     {
         try {
-            $sql = 'UPDATE heroes SET hp = :hp WHERE id_hero = :id;';
+            $sql = 'UPDATE heroes SET hp = :hp, energy = :eng WHERE id_hero = :id;';
 
             $request = $this->getDb()->prepare($sql);
 
             return $request->execute([
                 ':hp' => $hero->getHp(),
+                ':eng' => $hero->getEnergy(),
                 ':id' => $hero->getId()
             ]);
 

@@ -21,8 +21,8 @@ include('includes/header.php');
     </div>
     <div class="col-auto">
         <select class="form-select" name="class" aria-label="Classe du Héro">
-            <option value="guerrier" selected>Guerrier</option>
-            <option value="mage">Mage</option>
+            <option value="warrior" selected>Guerrier</option>
+            <option value="magician">Mage</option>
             <option value="archer">Archer</option>
         </select>
     </div>

@@ -8,6 +8,8 @@ class Hero {
     private int $energy;
     private string $class;
 
+    const COST_HIT = 15;
+
     public function __construct(array $datas)
     {
         $this->hydrate($datas);
@@ -90,7 +92,11 @@ class Hero {
      */
     public function setEnergy($energy)
     {
-        $this->energy = ($energy >= 0)?$energy:0;
+        if ($energy < 100) {
+            $this->energy = ($energy >= 0)?$energy:0;
+        } else {
+            $this->energy = 100;
+        }
     }
 
      /**
@@ -127,7 +133,7 @@ class Hero {
         $damage = rand(0, 20);
 
         $monster->setHp($monster->getHp() - $damage);
-        $this->setEnergy($this->getEnergy() - 15);
+        $this->setEnergy($this->getEnergy() - Hero::COST_HIT);
 
         return $damage;
     }

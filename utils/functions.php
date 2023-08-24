@@ -15,7 +15,8 @@ function createHero() {
                     'class' => htmlspecialchars($_POST['class'])
                 ];
 
-                $hero = new Hero($heroProps);
+                $class = ucfirst($heroProps['class']);
+                $hero = new $class($heroProps);
 
                 $heroIsCreated = $manager->add($hero);
 

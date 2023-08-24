@@ -32,12 +32,25 @@ class FightManager {
         if ($hero->getHp() > 0 && $monster->getHp() > 0) {
 
             if ($heroHit) {
-                $damage = $hero->hit($monster);
-                $step = $this->getStep($hero, $damage, $monster);
+
+                if ($hero->getEnergy() >= Hero::COST_HIT) {
+                    $damage = $hero->hit($monster);
+                    $step = $this->getStep($hero, $damage, $monster);
+                } else {
+                    $step = [
+                        'status' => $hero->getName() . ' ne peut pas attaquer ' . $monster->getName() . '.',
+                        'state' => $hero->getName() . ' n\'a plus que ' . $hero->getEnergy() . ' ENG.'
+                    ];
+                }
+
             } else {
                 $damage = $monster->hit($hero);
                 $step = $this->getStep($monster, $damage, $hero);
             }
+
+            $regenerateEnergy = rand(0, 20);
+
+            $hero->setEnergy($hero->getEnergy() + $regenerateEnergy);
 
             $history[] = [
                 'heroHit' => $heroHit,
@@ -62,7 +75,7 @@ class FightManager {
 
     function getResult($winner):array
     {
-        if (get_class($winner) == 'Hero') {
+        if (get_parent_class($winner) == 'Hero') {
             $status = 'Avec courage, vous avez terrasser l\'ennemi.';
             $state = 'Victoire';
             $isVictory = true;
