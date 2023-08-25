@@ -82,7 +82,7 @@ $isCurrentInvoked = currentInvoked($hero);
           <?php if (!$isCurrentInvoked) { ?>
             <a href="live.php?page=invoke&hero=<?= $hero->getId() ?>&invoked=true" class="btn btn-success">Invoquer</a>
           <?php } else { ?>
-            <button class="btn btn-outline-secondary"><?= timer($hero); ?></button>
+            <button class="btn btn-outline-secondary" data-summon="<?= timer($hero) ?>" data-hero="<?= $hero->getId() ?>"><?= timer($hero); ?></button>
           <?php } ?>
         </div>
       </div>

@@ -166,6 +166,25 @@ class HeroesManager {
  
     }
 
+    public function conditioning(int $hero):bool
+    {
+        try {
+            $sql = 'UPDATE heroes SET hp = 120, energy = 100, last_summon = null WHERE id_hero = :id;';
+
+            $request = $this->getDb()->prepare($sql);
+
+            return $request->execute([
+                ':id' => $hero,
+            ]);
+
+        } catch (PDOException $error) {
+            print_r($error);
+
+            return false;
+        }
+ 
+    }
+
 }
 
 ?>
