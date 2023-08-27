@@ -44,8 +44,10 @@ function getMonster():array
 }
 
 function startFight($monster, $hero) {
+    $heroManager = new HeroesManager(dbConnect());
     $fightManager = new FightManager();
     $damage = $monster->hit($hero);
+    $heroManager->update($hero);
     $step = $fightManager->getStep($monster, $damage, $hero);
 
     return $step;
@@ -82,7 +84,7 @@ $monster = ($monsterData['status'] === 200)?$monsterData['monster']:null;
             <div class="card-header"><?= $monster->getClass() ?></div>
             <div class="card-body">
               <h5 class="card-title"><?= $monster->getName() ?></h5>
-              <p class="card-text">PV : <?= $hero->getHp() ?></p>
+              <p class="card-text">PV : <?= $monster->getHp() ?></p>
               <br />
             </div>
           </div>
@@ -99,28 +101,21 @@ $monster = ($monsterData['status'] === 200)?$monsterData['monster']:null;
 <!-- Fight section -->
 
 <?php if ($hero !== null && $monster !== null) { ?>
-    <section class="container-sm container-md">
-        <?php $infos = startFight($monster, $hero) ?>
-        <p><?= $infos['status'] ?></p>
-        <p><?= $infos['state'] ?></p>
-        <div id="userActions" class="text-center">
-            <a href="#" class="btn btn-primary btn-lg" data-action="hit">Hit</a>
-            <a href="#" class="btn btn-secondary btn-lg" data-action="special">Special Hit</a>
-            <a href="#" class="btn btn-success btn-lg" data-action="run">Run</a>
+    <section id="fightHistory" class="container-sm container-md">
+        <div class="col-12 text-danger">
+            <?php $infos = startFight($monster, $hero) ?>
+            <p><?= $infos['status'] ?></p>
+            <p><?= $infos['state'] ?></p>
         </div>
     </section>
+    <div id="userActions" class="text-center">
+        <a href="#" class="btn btn-primary btn-lg" data-action="hit">Hit</a>
+        <a href="#" class="btn btn-secondary btn-lg" data-action="special">Special Hit</a>
+        <a href="#" class="btn btn-success btn-lg" data-action="run">Run</a>
+    </div>
 
     <script>
         function getDatasFight() {
-            let hero = {
-                'id_hero': <?= $hero->getId() ?>,
-                'name': '<?= $hero->getName() ?>',
-                'class': '<?= $hero->getClass() ?>',
-                'hp': <?= $hero->getHp() ?>,
-                'energy': <?= $hero->getEnergy() ?>,
-                'last_summon': '<?= $hero->getInvoked() ?>'
-            };
-
             let monster = {
                 'name': '<?= $monster->getName() ?>',
                 'class': '<?= $monster->getClass() ?>',
@@ -128,7 +123,7 @@ $monster = ($monsterData['status'] === 200)?$monsterData['monster']:null;
             };
 
             return {
-                'hero': hero,
+                'hero': <?= $hero->getId() ?>,
                 'monster': monster
             };
         }

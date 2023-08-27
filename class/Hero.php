@@ -161,6 +161,11 @@ class Hero {
         return $damage;
     }
 
+    public function run():bool
+    {
+        return true;
+    }
+
 }
 
 ?>

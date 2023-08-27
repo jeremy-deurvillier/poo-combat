@@ -14,7 +14,7 @@ include('includes/header.php');
 
 <?php include('includes/home-btn.php'); ?>
 
-<section class="container-sm container-md">
+<section id="fightHistory" class="container-sm container-md">
     <?php fighting(); ?>
 </section>
 
